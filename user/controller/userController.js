@@ -1,64 +1,108 @@
-var mongoose = require('mongoose');
-User = mongoose.model('Users');
+const mongoose = require("mongoose");
+const User = require("../model/userModel.js");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
+//set your own jwt key in an env file
+const jwtSecret ="test";
 
-// Retrieve all the users saved in the database
-exports.getAllUsers = function(req, res) {
-  User.find({}, function(err, user) {
-    if (err) {
-      res.status(400).send(err);
-    } else {
-      res.json(user);
-    }
-  });
+exports.signupUser = function(req, res, next) {
+  User.find({ email: req.body.email })
+    .exec()
+    .then(user => {
+      if (user.length >= 1) {
+        return res.status(200).json({
+          message: "User already exists"
+        });
+      } else {
+        bcrypt.hash(req.body.password, 10, (err, hash) => {
+          if (err) {
+            return res.status(500).json({
+              error: err
+            });
+          } else {
+            const user = new User({
+              _id: new mongoose.Types.ObjectId(),
+              email: req.body.email,
+              password: hash
+            });
+            user
+              .save()
+              .then(result => {
+                console.log(result);
+                res.status(201).json({
+                  message: "User created"
+                });
+              })
+              .catch(err => {
+                console.log(err);
+                res.status(500).json({
+                  error: err
+                });
+              });
+          }
+        });
+      }
+    });
 };
 
-// Create a new user
-exports.createUser = function(req, res) {
-  var new_user = new User(req.body);
-  new_user.save(function(err, user) {
-    if (err) {
-      res.status(400).send(err);
-    } else {
-      res.status(201).json(user);
-    }
-  });
+exports.loginUser = function(req, res, next) {
+  User.find({ email: req.body.email })
+    .exec()
+    .then(user => {
+      if (user.length < 1) {
+        return res.status(401).json({
+          message: "Auth failed"
+        });
+      }
+      bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+        if (err) {
+          return res.status(401).json({
+            message: "Auth failed"
+          });
+        }
+        if (result) {
+          console.log("test"+jwtSecret);
+          const token = jwt.sign(
+            {
+              email: user[0].email,
+              userId: user[0]._id
+            },
+            jwtSecret,
+            {
+                expiresIn: "1h"
+            }
+          );
+          return res.status(200).json({
+            message: "Auth successful",
+            token: token
+          });
+        }
+        res.status(401).json({
+          message: "Auth failed"
+        });
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
 };
 
-// Retrieve a user by taskId
-exports.getUser = function(req, res) {
-  User.findById(req.params.taskId, function(err, user) {
-    if (err) {
-      res.status(404).send({ error: { errors: [ { domain: 'global', reason: 'notFound', message: 'Not Found', 
-                            description: 'Couldn\'t find the requested taskId \'' + req.params.taskId + '\'' } ], err, code: 404 } })
-    } else {
-      res.json(user);
-    }
-  });
-};
-
-// Edit a user by email
-exports.editUserById = function(req, res) {
-  User.findOneAndUpdate({_id: req.params.email}, req.body, {new: true}, function(err, user) {
-    if (err) {
-      res.status(400).send(err);
-    } else {
-      res.json(user);
-    }
-  });
-};
-
-// Delete a user by email
-exports.deleteUserById = function(req, res) {
-User.remove({
-    _id: req.params.email
-  }, function(err, user) {
-    if (err) {
-      res.status(404).send({ error: { errors: [ { domain: 'global', reason: 'notFound', message: 'Not Found', 
-                            description: 'Couldn\'t find the requested user \'' + req.params.taskId + '\'' } ], code: 404, message: 'Not Found' } })
-    } else {
-      res.status(204).send();
-      //res.json({ message: 'User successfully deleted' });
-    }
-  });
+exports.deleteUser= function(req, res, next) {
+  User.remove({ _id: req.params.userId })
+    .exec()
+    .then(result => {
+      res.status(200).json({
+        message: "User deleted"
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
 };

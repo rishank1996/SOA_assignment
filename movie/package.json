@@ -4,6 +4,7 @@
     "description": "Movie API",
     "main": "movie.js",
     "scripts": {
+      "start" : "node movie.js",
       "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Rishank Kumar",

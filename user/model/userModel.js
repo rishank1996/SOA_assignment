@@ -4,12 +4,9 @@ var Schema = mongoose.Schema;
 
 // JSON schema for 
 var UserSchema = new Schema({
-  name: {
-    type: String,
-    required: 'Kindly enter the name of the task'
-  },
   email: {
     type: String,
+    unique: true,
     required: 'Kindly provide the email'
   },
   password: {

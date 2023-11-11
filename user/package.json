@@ -4,13 +4,16 @@
     "description": "User Auth",
     "main": "user.js",
     "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1"
+        "start" : "node user.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Rishank Kumar",
     "license": "ISC",
     "dependencies": {
-      "express": "^4.18.2",
-      "mongoose": "^5.6.3"
+        "bcrypt": "^5.1.1",
+        "express": "^4.18.2",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^5.6.3",
+        "morgan": "^1.10.0"
     }
-  }
-  
+}
