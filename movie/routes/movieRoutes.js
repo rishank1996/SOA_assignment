@@ -1,9 +1,7 @@
 const controller = require('../controller/movieController.js');
-//const User = require('../model/userModel.js');
 const express = require('express');
 const router = express.Router();
 
-// define the home page route
 router.get('/movie', controller.getAllMovies);
 router.post('/movie', controller.createMovie);
 router.get('/movie/:movieId', controller.getMovie);

@@ -92,7 +92,7 @@ exports.getMovieReview = function(req, res, next) {
 };
 
 exports.creatMovieReview = function(req, res, next) {
-    const formData = {'movieId' : req.params.movieId, ...req.body};
+    const formData = {'movieID' : req.params.movieId, ...req.body};
     axios.post('http://localhost:4000/review', formData).then(function callback(response) {
         res.status(response.status).json(response.data);
     }).catch(function (error) {

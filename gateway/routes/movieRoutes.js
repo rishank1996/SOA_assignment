@@ -1,9 +1,10 @@
 
 const movieController = require('../controller/movieController.js');
-const userController = require('../controller/userController.js');
+const userAuth = require('../middleware/check-auth.js');
 const express = require('express');
 const router = express.Router();
 
+router.use(userAuth);
 
 // define the movie route
 router.get('/', movieController.getAllMovies);
