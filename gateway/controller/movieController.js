@@ -7,10 +7,7 @@ exports.getAllMovies = function(req, res, next) {
     }).catch(function (error) {
         if(error.response)
         {
-            error = {
-                status: error.response.status,
-                message: error.response.data
-            };
+            error = error.response.data;
         }
         next(error);
     });
@@ -22,10 +19,7 @@ exports.createMovie = function(req, res, next) {
     }).catch(function (error) {
         if(error.response)
         {
-            error = {
-                status: error.response.status,
-                message: error.response.data
-            };
+            error = error.response.data;
         }
         next(error);
     });
@@ -37,10 +31,7 @@ exports.getMovie = function(req, res, next) {
     }).catch(function (error) {
         if(error.response)
         {
-            error = {
-                status: error.response.status,
-                message: error.response.data
-            };
+            error = error.response.data;
         }
         next(error);
     });
@@ -52,10 +43,7 @@ exports.editMovieById = function(req, res, next) {
     }).catch(function (error) {
         if(error.response)
         {
-            error = {
-                status: error.response.status,
-                message: error.response.data
-            };
+            error = error.response.data;
         }
         next(error);
     });
@@ -67,10 +55,7 @@ exports.deleteMovieById = function(req, res, next) {
     }).catch(function (error) {
         if(error.response)
         {
-            error = {
-                status: error.response.status,
-                message: error.response.data
-            };
+            error = error.response.data;
         }
         next(error);
     });
@@ -82,10 +67,7 @@ exports.getMovieReview = function(req, res, next) {
     }).catch(function (error) {
         if(error.response)
         {
-            error = {
-                status: error.response.status,
-                message: error.response.data
-            };
+            error = error.response.data;
         }
         next(error);
     });
@@ -98,10 +80,7 @@ exports.creatMovieReview = function(req, res, next) {
     }).catch(function (error) {
         if(error.response)
         {
-            error = {
-                status: error.response.status,
-                message: error.response.data
-            };
+            error = error.response.data;
         }
         next(error);
     });
@@ -113,10 +92,7 @@ exports.getMovieReviewByID = function(req, res, next) {
     }).catch(function (error) {
         if(error.response)
         {
-            error = {
-                status: error.response.status,
-                message: error.response.data
-            };
+            error = error.response.data;
         }
         next(error);
     });
@@ -129,10 +105,7 @@ exports.updateMovieReviewByID = function(req, res, next) {
     }).catch(function (error) {
         if(error.response)
         {
-            error = {
-                status: error.response.status,
-                message: error.response.data
-            };
+            error = error.response.data;
         }
         next(error);
     });
@@ -144,10 +117,7 @@ exports.deleteMovieReviewByID = function(req, res, next) {
     }).catch(function (error) {
         if(error.response)
         {
-            error = {
-                status: error.response.status,
-                message: error.response.data
-            };
+            error = error.response.data;
         }
         next(error);
     });

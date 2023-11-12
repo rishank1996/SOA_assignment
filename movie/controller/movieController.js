@@ -16,7 +16,7 @@ exports.createMovie = async function(req, res) {
         return res.status(201).json(insertedMovie);
     }
     catch{
-        return res.status(400).json({ 'error' : 'failed to insert movie' });
+        return res.status(400).json({ 'message' : 'failed to insert movie' });
     }
 };
 
@@ -24,7 +24,7 @@ exports.createMovie = async function(req, res) {
 exports.getMovie = async function(req, res) {
     const movie = await Movie.findOne({ '_id' : req.params.movieId });
     if(movie === null)
-        return res.status(404).json({ 'error' : 'Couldn\'t find the movie', 'status' : 404 })
+        return res.status(404).json({ 'message' : 'Couldn\'t find the movie', 'status' : 404 })
     res.json(movie);
 };
 
@@ -32,14 +32,14 @@ exports.getMovie = async function(req, res) {
 exports.editMovieById = async function(req, res) {
     const movie = await Movie.findOneAndUpdate({ '_id' : req.params.movieId }, req.body);
     if(movie === null)
-        return res.status(404).json({ 'error' : 'Couldn\'t find the movie', 'status' : 404 })
-    res.json({ 'msg' : 'movie updated successfully' });
+        return res.status(404).json({ 'message' : 'Couldn\'t find the movie', 'status' : 404 })
+    res.json({ 'message' : 'movie updated successfully' });
 };
 
 // Delete a movie by email
 exports.deleteMovieById = async function(req, res) {
     const movie = await Movie.findOneAndDelete({ '_id' : req.params.movieId });
     if(movie === null)
-        return res.status(404).json({ 'error' : 'Couldn\'t find the movie', 'status' : 404 })
-    res.json({ 'msg' : 'movie deleted successfully' });
+        return res.status(404).json({ 'message' : 'Couldn\'t find the movie', 'status' : 404 })
+    res.status(204).json({ 'message' : 'movie deleted successfully' });
 };

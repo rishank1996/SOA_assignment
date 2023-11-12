@@ -29,7 +29,7 @@ exports.createReview = async function(req, res) {
 exports.getReviewById = async function(req, res) {
     const review = await Review.findOne({ '_id' : req.params.reviewId });
     if(review === null)
-        return res.status(404).json({ 'error' : 'Couldn\'t find the review', 'status' : 404 })
+        return res.status(404).json({ 'message' : 'Couldn\'t find the review', 'status' : 404 })
     res.json(review);
 };
 
@@ -37,14 +37,14 @@ exports.getReviewById = async function(req, res) {
 exports.editReviewById = async function(req, res) {
     const review = await Review.findOneAndUpdate({ '_id' : req.params.reviewId }, req.body);
     if(review === null)
-        return res.status(404).json({ 'error' : 'Couldn\'t find the review', 'status' : 404 })
-    res.json({ 'msg' : 'review updated successfully' });
+        return res.status(404).json({ 'message' : 'Couldn\'t find the review', 'status' : 404 })
+    res.json({ 'message' : 'review updated successfully' });
 };
 
 // Delete a user by email
 exports.deleteReviewById = async function(req, res) {
     const review = await Review.findOneAndDelete({ '_id' : req.params.reviewId });
     if(review === null)
-        return res.status(404).json({ 'error' : 'Couldn\'t find the review', 'status' : 404 })
-    res.json({ 'msg' : 'review deleted successfully' });
+        return res.status(404).json({ 'message' : 'Couldn\'t find the review', 'status' : 404 })
+    res.status(204).json({ 'message' : 'review deleted successfully' });
 };
